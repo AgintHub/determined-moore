@@ -1,0 +1,101 @@
+dag_type: plain_text
+description: build a computer use agent that applies for a job on the Rivian site
+name: computer_use_agent_application
+nodes:
+  create_agent_profile:
+    agent: false
+    description: Create a profile for the computer use agent.
+    name: create_agent_profile
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: 'Develop a computer use agent profile with essential information, including
+      work experience, education, skills, and certifications.
+
+
+      Output the formatted profile with key information and details.'
+  fill_out_application_form:
+    agent: false
+    description: Complete the application form with the relevant information and documents.
+    name: fill_out_application_form
+    nodes_depended_on:
+    - prepare_application_documents
+    - select_appropriate_jobs
+    nodes_dependent_on: []
+    prompt: 'Fill out the application form for the selected job opening with the required
+      documents and information from the previous steps.
+
+
+      Output the completed application form with supporting documents attached.'
+  get_rivian_job_openings:
+    agent: false
+    description: Retrieve the list of Rivian job openings that match the agent profile.
+    name: get_rivian_job_openings
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: 'Fetch the current job openings on the Rivian website, specifically positions
+      requiring a computer use agent with experience in customer service, remote work,
+      or tech support.
+
+
+      Use the job search page URL and the desired job title as inputs.
+
+
+      Output the list of matching job openings with job title, location, and requirements.'
+  parse_job_openings:
+    agent: false
+    description: Parse the job openings list and extract the relevant information.
+    name: parse_job_openings
+    nodes_depended_on:
+    - get_rivian_job_openings
+    nodes_dependent_on: []
+    prompt: 'Take the job openings list from the previous step and extract the key
+      information: job title, location, and requirements.
+
+
+      Use the extracted data to create a list of job openings with their corresponding
+      information.
+
+
+      Output the formatted list with each opening on a new line.'
+  prepare_application_documents:
+    agent: false
+    description: Prepare the documents needed for the job application.
+    name: prepare_application_documents
+    nodes_depended_on:
+    - create_agent_profile
+    nodes_dependent_on: []
+    prompt: 'Generate the required documents for the job application: resume, cover
+      letter, and references.
+
+
+      Use the agent profile from the previous step as input.
+
+
+      Output the prepared documents in their respective formats.'
+  select_appropriate_jobs:
+    agent: false
+    description: Select the job openings that align with the agent's qualifications.
+    name: select_appropriate_jobs
+    nodes_depended_on:
+    - parse_job_openings
+    nodes_dependent_on: []
+    prompt: 'Choose the job openings from the list in the previous step that best
+      match the computer use agent''s skills and experience.
+
+
+      Select the job openings that are relevant to the agent''s work profile and education.
+
+
+      Output the list of selected job openings with their corresponding information.'
+  submit_application:
+    agent: false
+    description: Submit the application form for consideration.
+    name: submit_application
+    nodes_depended_on:
+    - fill_out_application_form
+    nodes_dependent_on: []
+    prompt: 'Submit the completed application form with required documents for the
+      job opening.
+
+
+      Output a confirmation message indicating successful submission.'
